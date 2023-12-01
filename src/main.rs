@@ -21,5 +21,5 @@ fn main() {
   let cli = Cli::parse();
   let command = cli.command.unwrap();
 
-  command.execute();
+  command.execute(cli.part_two, cli.sample);
 }
