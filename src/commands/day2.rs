@@ -7,18 +7,20 @@ use super::AoCCommand;
 pub struct Day2 {}
 
 impl AoCCommand for Day2 {
-  fn execute(&self, part_two: bool, sample: bool) {
+  fn execute(&self, part_two: bool) {
     let input = include_str!("../../inputs/day2.txt");
-    let input_sample = include_str!("../../inputs/samples/day2.txt");
+    let result: u32;
 
     if part_two {
-      self.execute_part_two(if sample { input_sample } else { input });
+      result = self.execute_part_two(input);
     } else {
-      self.execute_part_one(if sample { input_sample } else { input });
+      result = self.execute_part_one(input);
     }
+
+    println!("{}", result);
   }
 
-  fn execute_part_one(&self, input: &str) {
+  fn execute_part_one(&self, input: &str) -> u32 {
     let max_red = 12u32;
     let max_green = 13u32;
     let max_blue = 14u32;
@@ -52,10 +54,10 @@ impl AoCCommand for Day2 {
       acc + id
     });
 
-    println!("{}", result);
+    result
   }
 
-  fn execute_part_two(&self, input: &str) {
+  fn execute_part_two(&self, input: &str) -> u32 {
     let game_re = Regex::new(r"(?m)Game \d+: (?<cubes>.*)").unwrap();
     let color_value_re: Regex = Regex::new(r"(?<value>\d+) (?<color>red|green|blue)").unwrap();
 
@@ -95,6 +97,27 @@ impl AoCCommand for Day2 {
       acc + power
     });
 
-    println!("{}", result);
+    result
+  }
+}
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+  const SAMPLE: &str = include_str!("../../inputs/samples/day2.txt");
+
+  #[test]
+  fn test_part_one() {
+    let command = Day2 {};
+
+    assert_eq!(command.execute_part_one(SAMPLE), 8);
+  }
+
+  #[test]
+  fn test_part_two() {
+    let command = Day2 {};
+
+    assert_eq!(command.execute_part_two(SAMPLE), 2286);
   }
 }

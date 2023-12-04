@@ -7,9 +7,6 @@ mod commands;
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 struct Cli {
-  #[arg(short, long)]
-  sample: bool,
-
   #[arg(short = '2', long)]
   part_two: bool,
 
@@ -21,5 +18,5 @@ fn main() {
   let cli = Cli::parse();
   let command = cli.command.unwrap();
 
-  command.execute(cli.part_two, cli.sample);
+  command.execute(cli.part_two);
 }

@@ -7,19 +7,20 @@ use super::AoCCommand;
 pub struct Day1 {}
 
 impl AoCCommand for Day1 {
-  fn execute(&self, part_two: bool, sample: bool) {
+  fn execute(&self, part_two: bool) {
     let input = include_str!("../../inputs/day1.txt");
-    let input_part_one_sample = include_str!("../../inputs/samples/day1.txt");
-    let input_part_two_sample = include_str!("../../inputs/samples/day1_part2.txt");
+    let result;
 
     if part_two {
-      self.execute_part_two(if sample { input_part_two_sample } else { input });
+      result = self.execute_part_two(input);
     } else {
-      self.execute_part_one(if sample { input_part_one_sample } else { input });
+      result = self.execute_part_one(input);
     }
+
+    println!("{}", result);
   }
 
-  fn execute_part_one(&self, input: &str) {
+  fn execute_part_one(&self, input: &str) -> u32 {
     let re = Regex::new(r"(?m)^\D*(?P<first>\d)(?:.*(?P<last>\d))?\D*$").unwrap();
     let result: u32 = re.captures_iter(input).fold(0u32, |acc, c| {
       let first = c.name("first").unwrap();
@@ -31,10 +32,10 @@ impl AoCCommand for Day1 {
       acc + value
     });
 
-    println!("{:?}", result);
+    result
   }
 
-  fn execute_part_two(&self, input: &str) {
+  fn execute_part_two(&self, input: &str) -> u32 {
     let re = Regex::new(r"(?m)^.*?(?P<first>\d|one|two|three|four|five|six|seven|eight|nine)(?:.*(?P<last>\d|one|two|three|four|five|six|seven|eight|nine))?.*$").unwrap();
     let result: u32 = re.captures_iter(input).fold(0u32, |acc, c| {
       let first = c.name("first").unwrap();
@@ -72,6 +73,29 @@ impl AoCCommand for Day1 {
       acc + value
     });
 
-    println!("{:?}", result);
+    result
+  }
+}
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+  const SAMPLE_PART_ONE: &str = include_str!("../../inputs/samples/day1.txt");
+  const SAMPLE_PART_TWO: &str = include_str!("../../inputs/samples/day1_part2.txt");
+
+  #[test]
+  fn test_part_one() {
+    let command = Day1 {};
+
+    assert_eq!(command.execute_part_one(SAMPLE_PART_ONE), 142);
+  }
+
+  #[test]
+  fn test_part_two() {
+    let command = Day1 {};
+
+    assert_eq!(command.execute_part_two(SAMPLE_PART_ONE), 142);
+    assert_eq!(command.execute_part_two(SAMPLE_PART_TWO), 281);
   }
 }

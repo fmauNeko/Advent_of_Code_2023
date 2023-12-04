@@ -13,16 +13,16 @@ pub enum Subcommands {
 }
 
 impl Subcommands {
-  pub fn execute(&self, part_two: bool, sample: bool) {
+  pub fn execute(&self, part_two: bool) {
     match self {
-      Subcommands::Day1(day1) => day1.execute(part_two, sample),
-      Subcommands::Day2(day2) => day2.execute(part_two, sample),
+      Subcommands::Day1(day1) => day1.execute(part_two),
+      Subcommands::Day2(day2) => day2.execute(part_two),
     }
   }
 }
 
 pub trait AoCCommand {
-  fn execute(&self, part_two: bool, sample: bool);
-  fn execute_part_one(&self, input: &str);
-  fn execute_part_two(&self, input: &str);
+  fn execute(&self, part_two: bool);
+  fn execute_part_one(&self, input: &str) -> u32;
+  fn execute_part_two(&self, input: &str) -> u32;
 }
